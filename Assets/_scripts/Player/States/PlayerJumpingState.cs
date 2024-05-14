@@ -21,6 +21,7 @@ public class PlayerJumpingState : IState
 
         if (_stateController.Player.IsGrounded)
         {
+            Debug.Log(nameof(PlayerJumpingState));
             _stateController.Player.Jump();
         }
     }
