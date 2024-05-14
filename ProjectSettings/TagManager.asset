@@ -41,3 +41,6 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: SoldierEnemy
+    uniqueID: 2170421169
+    locked: 0

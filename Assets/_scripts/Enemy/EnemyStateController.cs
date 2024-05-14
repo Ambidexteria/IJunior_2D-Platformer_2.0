@@ -10,7 +10,8 @@ public class EnemyStateController : MonoBehaviour
         Patrolling,
         Chasing,
         Attacking,
-        Hurting
+        Hurting,
+        Dying
     }
 
     [SerializeField] private Enemy _enemy;
@@ -55,17 +56,19 @@ public class EnemyStateController : MonoBehaviour
     private void OnEnable()
     {
         _enemy.Hurt += ChangeHurtState;
+        _enemy.Died += DisableControllerEnemyDied;
 
         if (_playerEvents != null)
-            _playerEvents.Died += DisableController;
+            _playerEvents.Died += DisableControllerPlayerDied;
     }
 
     private void OnDisable()
     {
         _enemy.Hurt -= ChangeHurtState;
+        _enemy.Died -= DisableControllerEnemyDied;
 
         if (_playerEvents != null)
-            _playerEvents.Died -= DisableController;
+            _playerEvents.Died -= DisableControllerPlayerDied;
     }
 
     private void Update()
@@ -133,10 +136,17 @@ public class EnemyStateController : MonoBehaviour
         ChangeState(States.Hurting);
     }
 
-    private void DisableController()
+    private void DisableControllerPlayerDied()
     {
         Pause();
         ChangeState(States.Idle);
+        enabled = false;
+    }
+
+    private void DisableControllerEnemyDied()
+    {
+        Pause();
+        ChangeState(States.Dying);
         enabled = false;
     }
 
