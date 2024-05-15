@@ -1,5 +1,4 @@
 using System;
-using UnityEngine;
 
 public class PlayerJumpingState : IState
 {
@@ -19,9 +18,8 @@ public class PlayerJumpingState : IState
     {
         _stateController.Player.Animator.Play(Jump);
 
-        if (_stateController.Player.IsGrounded)
+        if (_stateController.IsGrounded)
         {
-            Debug.Log(nameof(PlayerJumpingState));
             _stateController.Player.Jump();
         }
     }

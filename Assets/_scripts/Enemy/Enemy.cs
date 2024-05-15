@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 
+[RequireComponent(typeof(Rigidbody2D), typeof(CapsuleCollider2D))]
 public class Enemy : MonoBehaviour, IDamageable
 {
     [SerializeField] private EnemyWeapon _weapon;
@@ -8,6 +9,9 @@ public class Enemy : MonoBehaviour, IDamageable
     [SerializeField] private Animator _animator;
     [SerializeField] private Mover _mover;
     [SerializeField] private Rotator _rotator;
+
+    private Rigidbody2D _rigidbody;
+    private CapsuleCollider2D _collider;
 
     public event Action Hurt;
     public event Action Died;
@@ -18,7 +22,23 @@ public class Enemy : MonoBehaviour, IDamageable
 
     private void Awake()
     {
-        
+        if(_weapon == null)
+            throw new ArgumentNullException(nameof(_weapon) + " in " + nameof(Enemy));
+
+        if(_animator == null)
+            throw new ArgumentNullException(nameof(_animator) + " in " + nameof(Enemy));
+
+        if(_health == null)
+            throw new ArgumentNullException(nameof(_health) + " in " + nameof(Enemy));
+
+        if(_mover == null)
+            throw new ArgumentNullException(nameof(_mover) + " in " + nameof(Enemy));
+
+        if(_rotator == null)
+            throw new ArgumentNullException(nameof(_rotator) + " in " + nameof(Enemy));
+
+        _rigidbody = GetComponent<Rigidbody2D>();
+        _collider = GetComponent<CapsuleCollider2D>();
     }
 
     private void OnEnable()
@@ -51,6 +71,13 @@ public class Enemy : MonoBehaviour, IDamageable
 
     private void Die()
     {
+        _rigidbody.bodyType = RigidbodyType2D.Static;
+        _collider.enabled = false;
+        _rotator.enabled = false;
+        _mover.enabled = false;
+        _weapon.gameObject.SetActive(false);
+        _health.gameObject.SetActive(false);
+
         Died?.Invoke();
     }
 

@@ -1,11 +1,9 @@
 using System;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemyAttackingState : IState
 {
     private readonly string Attack = nameof(Attack);
-    private readonly string Idle = nameof(Idle);
 
     private EnemyStateController _controller;
     private float _duration;

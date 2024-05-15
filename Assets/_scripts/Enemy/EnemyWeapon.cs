@@ -21,6 +21,7 @@ public class EnemyWeapon : MonoBehaviour
     public void ResetRegularAttack()
     {
         _attackZone.enabled = false;
+        _player = null;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -29,14 +30,6 @@ public class EnemyWeapon : MonoBehaviour
         {
             _player = target;
             target.TakeDamage(_regularAttackDamage);
-        }
-    }
-
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        if (collision.TryGetComponent(out Player target))
-        {
-            _player = null;
         }
     }
 }

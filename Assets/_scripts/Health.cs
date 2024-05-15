@@ -9,6 +9,11 @@ public class Health : MonoBehaviour
 
     public float Current { get; private set; }
 
+    private void Awake()
+    {
+        Current = _maxValue;
+    }
+
     public void Increase(float amount)
     {
         if(amount <= 0)
@@ -22,10 +27,12 @@ public class Health : MonoBehaviour
     {
         if (amount <= 0)
             throw new ArgumentOutOfRangeException(nameof(amount) + " in " + nameof(Health));
-        
+
         Current -= amount;
 
         if (Current <= 0)
             Dying?.Invoke();
+
+        Debug.Log(nameof(Health) + " " + nameof(Decrease) + " " + amount);
     }
 }

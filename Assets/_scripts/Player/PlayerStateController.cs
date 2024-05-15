@@ -15,6 +15,7 @@ public class PlayerStateController : MonoBehaviour
         Died
     }
 
+    [SerializeField] private GroundDetector _groundDetector;
     [SerializeField] private Player _player;
     [SerializeField] private float _groundAttackDuration = 0.3f;
     [SerializeField] private float _hurtDuration;
@@ -23,18 +24,22 @@ public class PlayerStateController : MonoBehaviour
     private IState _currentState;
     private bool _isPaused;
 
+    public bool IsGrounded => _groundDetector.IsGrounded;
     public Player Player => _player;
 
     private void Awake()
     {
+        if (_groundDetector == null)
+            throw new ArgumentNullException(nameof(_groundDetector) + " in " + nameof(PlayerStateController));
+
         if (_player == null)
-            throw new ArgumentNullException(nameof(Player));
+            throw new ArgumentNullException(nameof(Player) + " in " + nameof(PlayerStateController));
 
         if(_groundAttackDuration <= 0)
-            throw new ArgumentOutOfRangeException(nameof(_groundAttackDuration));
+            throw new ArgumentOutOfRangeException(nameof(_groundAttackDuration) + " in " + nameof(PlayerStateController));
 
         if(_hurtDuration <= 0)
-            throw new ArgumentOutOfRangeException(nameof(_hurtDuration));
+            throw new ArgumentOutOfRangeException(nameof(_hurtDuration) + " in " + nameof(PlayerStateController));
 
         InitializeStates();
         ChangeState(State.Idle);
@@ -59,7 +64,7 @@ public class PlayerStateController : MonoBehaviour
         if (_isPaused)
             return;
 
-        if(_player.PlayerInput.IsAttacking && _player.IsGrounded)
+        if(_player.PlayerInput.IsAttacking && IsGrounded)
         {
             ChangeState(State.Attacking);
         }
@@ -67,11 +72,11 @@ public class PlayerStateController : MonoBehaviour
         {
             ChangeState(State.Jumping);
         }
-        else if (_player.PlayerInput.IsMoving && _player.IsGrounded == false)
+        else if (_player.PlayerInput.IsMoving && IsGrounded == false)
         {
             ChangeState(State.Jumping);
         }
-        else if (_player.PlayerInput.IsMoving && _player.IsGrounded)
+        else if (_player.PlayerInput.IsMoving && IsGrounded)
         {
             ChangeState(State.Walking);
         }

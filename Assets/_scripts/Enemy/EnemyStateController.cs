@@ -43,7 +43,7 @@ public class EnemyStateController : MonoBehaviour
             throw new ArgumentNullException(nameof(_playerAttackRangeDetector) + " in " + nameof(EnemyStateController));
 
         if (_patrolZone == null)
-            throw new ArgumentNullException(nameof(PatrolZone) + " in " + nameof(name));
+            throw new ArgumentNullException(nameof(PatrolZone) + " in " + nameof(EnemyStateController));
 
         InitializeStates();
     }
@@ -126,11 +126,6 @@ public class EnemyStateController : MonoBehaviour
         return _playerVisionDetector.TryGetPlayerPosition(out position);
     }
 
-    public void SetPatrolZone(PatrolZone zone)
-    {
-        _patrolZone = zone;
-    }
-
     private void ChangeHurtState()
     {
         ChangeState(States.Hurting);
@@ -138,15 +133,22 @@ public class EnemyStateController : MonoBehaviour
 
     private void DisableControllerPlayerDied()
     {
-        Pause();
         ChangeState(States.Idle);
-        enabled = false;
+        DeactivateController();
     }
 
     private void DisableControllerEnemyDied()
     {
-        Pause();
         ChangeState(States.Dying);
+        DeactivateController();
+    }
+
+    private void DeactivateController()
+    {
+        Pause();
+        _playerAttackRangeDetector.gameObject.SetActive(false);
+        _playerVisionDetector.gameObject.SetActive(false);
+        _patrolZone.gameObject.SetActive(false);
         enabled = false;
     }
 
@@ -159,5 +161,6 @@ public class EnemyStateController : MonoBehaviour
         _states.Add(States.Attacking, new EnemyAttackingState(this, _attackStateDuration));
         _states.Add(States.Hurting, new EnemyHurtingState(this, _hurtStateDuration));
         _states.Add(States.Chasing, new EnemyChasingState(this));
+        _states.Add(States.Dying, new EnemyDyingState(this));
     }
 }

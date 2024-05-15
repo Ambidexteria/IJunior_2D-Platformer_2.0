@@ -6,28 +6,29 @@ public class Player : MonoBehaviour, IDamageable
 {
     private const string Horizontal = nameof(Horizontal);
 
-    [SerializeField] private PlayerEvents _playerEvents;
     [SerializeField] private PlayerInput _input;
+    [SerializeField] PlayerEvents _playerEvents;
     [SerializeField] private Health _health;
     [SerializeField] private PlayerWeapon _weapon;
     [SerializeField] private Mover _mover;
     [SerializeField] private Rotator _rotator;
     [SerializeField] private Jumper _jumper;
-    [SerializeField] private GroundDetector _groundDetector;
     [SerializeField] private Animator _animator;
 
     public event Action Hurt;
 
-    public PlayerEvents PlayerEvents => _playerEvents;
     public Animator Animator => _animator;
     public PlayerInput PlayerInput => _input;
+    public PlayerEvents PlayerEvents => _playerEvents;
     public PlayerWeapon Weapon => _weapon;
-    public bool IsGrounded => _groundDetector.IsGrounded;
 
     private void Awake()
     {
         if (_input == null)
             throw new ArgumentNullException(nameof(PlayerInput) + " in " + nameof(name));
+
+        if (_playerEvents == null)
+            throw new ArgumentNullException(nameof(PlayerEvents) + " in " + nameof(PlayerStateController));
 
         if (_health == null)
             throw new ArgumentNullException(nameof(Health) + " in " + nameof(name));
@@ -40,9 +41,6 @@ public class Player : MonoBehaviour, IDamageable
 
         if (_jumper == null)
             throw new ArgumentNullException(nameof(Jumper) + " in " + nameof(name));
-
-        if (_groundDetector == null)
-            throw new ArgumentNullException(nameof(GroundDetector) + " in " + nameof(name));
 
         if (_animator == null)
             throw new ArgumentNullException(nameof(Animator) + " in " + nameof(name));
@@ -75,8 +73,7 @@ public class Player : MonoBehaviour, IDamageable
 
     public void AttackOnGround()
     {
-        if (IsGrounded)
-            _weapon.AttackRegular();
+        _weapon.AttackRegular();
     }
 
     public void TakeDamage(float damage)
