@@ -21,6 +21,8 @@ public class Health : MonoBehaviour
 
         Current += amount;
         Current = Mathf.Clamp(Current, 0, _maxValue);
+
+        Debug.Log(nameof(Health) + " " + nameof(Increase) + " " + amount);
     }
 
     public void Decrease(float amount)
