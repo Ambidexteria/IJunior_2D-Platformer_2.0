@@ -19,13 +19,7 @@ public class PlayerIdleState : IState
         _stateController.Player.Animator.Play(Idle);
     }
 
-    public void OnUpdate()
-    {
+    public void OnUpdate() { }
 
-    }
-
-    public void OnExit()
-    {
-
-    }
+    public void OnExit() { }
 }

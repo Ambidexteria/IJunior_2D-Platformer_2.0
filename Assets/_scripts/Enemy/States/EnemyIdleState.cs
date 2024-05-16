@@ -1,6 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+using System;
 
 public class EnemyIdleState : IState
 {
@@ -10,6 +8,9 @@ public class EnemyIdleState : IState
 
     public EnemyIdleState(EnemyStateController stateController)
     {
+        if (stateController == null)
+            throw new ArgumentNullException(nameof(stateController) + " in " + nameof(EnemyIdleState));
+
         _controller = stateController;
     }
 
@@ -18,12 +19,7 @@ public class EnemyIdleState : IState
         _controller.Enemy.Animator.Play(Idle);
     }
 
-    public void OnExit()
-    {
-        _controller.Enemy.Animator.Rebind();
-    }
+    public void OnExit() { }
 
-    public void OnUpdate()
-    {
-    }
+    public void OnUpdate() { }
 }

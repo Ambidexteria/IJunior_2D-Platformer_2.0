@@ -41,6 +41,18 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Background
+    uniqueID: 3617255221
+    locked: 0
+  - name: Platforms
+    uniqueID: 4187637713
+    locked: 0
+  - name: Dragon
+    uniqueID: 1064239343
+    locked: 0
   - name: SoldierEnemy
     uniqueID: 2170421169
+    locked: 0
+  - name: Items
+    uniqueID: 2098337683
     locked: 0

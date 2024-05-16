@@ -1,5 +1,4 @@
 using System;
-using UnityEngine;
 
 public class EnemyDyingState : IState
 {
@@ -20,13 +19,7 @@ public class EnemyDyingState : IState
         _controller.Enemy.Animator.Play(Die);
     }
 
-    public void OnExit()
-    {
+    public void OnExit() { }
 
-    }
-
-    public void OnUpdate()
-    {
-
-    }
+    public void OnUpdate() { }
 }

@@ -1,6 +1,4 @@
 using System;
-using System.Collections.Generic;
-using UnityEngine;
 
 public class PlayerDiedState : IState
 {
@@ -22,13 +20,7 @@ public class PlayerDiedState : IState
         _stateController.Player.Animator.Play(Die);
     }
 
-    public void OnExit()
-    {
+    public void OnExit() { }
 
-    }
-
-    public void OnUpdate()
-    {
-        
-    }
+    public void OnUpdate() { }
 }

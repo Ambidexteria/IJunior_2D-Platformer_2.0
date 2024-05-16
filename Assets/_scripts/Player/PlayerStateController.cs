@@ -18,10 +18,11 @@ public class PlayerStateController : MonoBehaviour
     [SerializeField] private GroundDetector _groundDetector;
     [SerializeField] private Player _player;
     [SerializeField] private float _groundAttackDuration = 0.3f;
-    [SerializeField] private float _hurtDuration;
+    [SerializeField] private float _hurtDuration = 0.2f;
 
     private Dictionary<State, IState> _states;
-    private IState _currentState;
+    private IState _currentStateValue;
+    private State _currentStateType;
     private bool _isPaused;
 
     public bool IsGrounded => _groundDetector.IsGrounded;
@@ -35,10 +36,10 @@ public class PlayerStateController : MonoBehaviour
         if (_player == null)
             throw new ArgumentNullException(nameof(Player) + " in " + nameof(PlayerStateController));
 
-        if(_groundAttackDuration <= 0)
+        if (_groundAttackDuration <= 0)
             throw new ArgumentOutOfRangeException(nameof(_groundAttackDuration) + " in " + nameof(PlayerStateController));
 
-        if(_hurtDuration <= 0)
+        if (_hurtDuration <= 0)
             throw new ArgumentOutOfRangeException(nameof(_hurtDuration) + " in " + nameof(PlayerStateController));
 
         InitializeStates();
@@ -59,12 +60,12 @@ public class PlayerStateController : MonoBehaviour
 
     private void Update()
     {
-        _currentState.OnUpdate();
+        _currentStateValue.OnUpdate();
 
         if (_isPaused)
             return;
 
-        if(_player.PlayerInput.IsAttacking && IsGrounded)
+        if (_player.PlayerInput.IsAttacking && IsGrounded)
         {
             ChangeState(State.Attacking);
         }
@@ -78,23 +79,26 @@ public class PlayerStateController : MonoBehaviour
         }
         else if (_player.PlayerInput.IsMoving && IsGrounded)
         {
-            ChangeState(State.Walking);
+            if (_currentStateType != State.Walking)
+                ChangeState(State.Walking);
         }
         else
         {
-            ChangeState(State.Idle);
+            if (_currentStateType != State.Idle)
+                ChangeState(State.Idle);
         }
     }
 
     public void ChangeState(State newState)
     {
-        if (_currentState != null)
+        if (_currentStateValue != null)
         {
-            _currentState.OnExit();
+            _currentStateValue.OnExit();
         }
 
-        _currentState = _states[newState];
-        _currentState.OnEnter();
+        _currentStateType = newState;
+        _currentStateValue = _states[newState];
+        _currentStateValue.OnEnter();
     }
 
     public void Pause()

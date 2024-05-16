@@ -1,6 +1,4 @@
 using System;
-using System.Collections.Generic;
-using UnityEngine;
 
 public class PlayerWalkingState : IState
 {
@@ -26,8 +24,5 @@ public class PlayerWalkingState : IState
         _stateController.Player.Move();
     }
 
-    public void OnExit()
-    {
-
-    }
+    public void OnExit() { }
 }

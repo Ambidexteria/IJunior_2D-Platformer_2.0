@@ -38,8 +38,6 @@ public class EnemyAttackingState : IState
     public void OnUpdate()
     {
         if (Time.time > _resumeTime)
-        {
             _controller.Resume();
-        }
     }
 }

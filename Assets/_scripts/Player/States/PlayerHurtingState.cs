@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerHurtingState : IState
@@ -38,8 +37,5 @@ public class PlayerHurtingState : IState
         }
     }
 
-    public void OnExit()
-    {
-
-    }
+    public void OnExit() { }
 }

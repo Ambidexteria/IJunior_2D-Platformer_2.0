@@ -96,7 +96,8 @@ public class EnemyStateController : MonoBehaviour
             }
             else
             {
-                ChangeState(States.Idle);
+                if (_currentStateType != States.Idle)
+                    ChangeState(States.Idle);
             }
         }
     }

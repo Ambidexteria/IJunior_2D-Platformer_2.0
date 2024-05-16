@@ -22,7 +22,7 @@ public class Health : MonoBehaviour
         Current += amount;
         Current = Mathf.Clamp(Current, 0, _maxValue);
 
-        Debug.Log(nameof(Health) + " " + nameof(Increase) + " " + amount);
+        Debug.Log(transform.root.name + " " + nameof(Health) + " " + nameof(Increase) + " " + amount);
     }
 
     public void Decrease(float amount)
@@ -35,6 +35,6 @@ public class Health : MonoBehaviour
         if (Current <= 0)
             Dying?.Invoke();
 
-        Debug.Log(nameof(Health) + " " + nameof(Decrease) + " " + amount);
+        Debug.Log(transform.root.name + " " + nameof(Health) + " " + nameof(Decrease) + " " + amount);
     }
 }

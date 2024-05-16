@@ -19,9 +19,7 @@ public class PlayerJumpingState : IState
         _stateController.Player.Animator.Play(Jump);
 
         if (_stateController.IsGrounded)
-        {
             _stateController.Player.Jump();
-        }
     }
 
     public void OnUpdate()
@@ -29,7 +27,5 @@ public class PlayerJumpingState : IState
         _stateController.Player.Move();
     }
 
-    public void OnExit()
-    {
-    }
+    public void OnExit() { }
 }

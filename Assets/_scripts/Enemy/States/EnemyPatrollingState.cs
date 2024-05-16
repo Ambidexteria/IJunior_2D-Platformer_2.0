@@ -27,16 +27,13 @@ public class EnemyPatrollingState : IState
         _movementDirection = Vector2.left;
     }
 
-    public void OnExit()
-    {
-        
-    }
-
     public void OnUpdate()
     {
         ChangeMovementDirection();
         _controller.Enemy.Move(_movementDirection);
     }
+
+    public void OnExit() { }
 
     private void ChangeMovementDirection()
     {
