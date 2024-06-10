@@ -61,7 +61,7 @@ public class Player : MonoBehaviour, IDamageable
 
     public void Move()
     {
-        _mover.Move(transform.right);
+        _mover.Move(_rotator.transform.right);
     }
 
     public void Jump()

@@ -5,9 +5,27 @@ public class Health : MonoBehaviour
 {
     [SerializeField] private float _maxValue;
 
-    public event Action Dying;
+    private float _currentHealth;
 
-    public float Current { get; private set; }
+    public event Action Dying;
+    public event Action<float> Changed;
+
+    public float Current
+    {
+        get
+        {
+            return _currentHealth;
+        }
+        private set
+        {
+            if (value <= 0)
+                _currentHealth = 0;
+            else
+                _currentHealth = value;
+        }
+    }
+
+    public float MaxValue => _maxValue;
 
     private void Awake()
     {
@@ -16,13 +34,13 @@ public class Health : MonoBehaviour
 
     public void Increase(float amount)
     {
-        if(amount <= 0)
+        if (amount <= 0)
             throw new ArgumentOutOfRangeException(nameof(amount) + " in " + nameof(Health));
 
         Current += amount;
         Current = Mathf.Clamp(Current, 0, _maxValue);
 
-        Debug.Log(transform.root.name + " " + nameof(Health) + " " + nameof(Increase) + " " + amount);
+        Changed?.Invoke(Current);
     }
 
     public void Decrease(float amount)
@@ -32,9 +50,9 @@ public class Health : MonoBehaviour
 
         Current -= amount;
 
+        Changed?.Invoke(Current);
+
         if (Current <= 0)
             Dying?.Invoke();
-
-        Debug.Log(transform.root.name + " " + nameof(Health) + " " + nameof(Decrease) + " " + amount);
     }
 }
