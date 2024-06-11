@@ -69,7 +69,7 @@ public class PlayerStateController : MonoBehaviour
         {
             ChangeState(State.Attacking);
         }
-        else if (_player.PlayerInput.Jump)
+        else if (_player.PlayerInput.Jumping)
         {
             ChangeState(State.Jumping);
         }

@@ -7,6 +7,7 @@ public class Player : MonoBehaviour, IDamageable
     [SerializeField] private PlayerInput _input;
     [SerializeField] private PlayerEvents _playerEvents;
     [SerializeField] private Health _health;
+    [SerializeField] private HealthDrain _specialSkill;
     [SerializeField] private PlayerWeapon _weapon;
     [SerializeField] private Mover _mover;
     [SerializeField] private Rotator _rotator;
@@ -57,6 +58,9 @@ public class Player : MonoBehaviour, IDamageable
     private void Update()
     {
         ChangeDirection();
+
+        if (_input.SpecialSkillUsed)
+            UseSpecialSkill();
     }
 
     public void Move()
@@ -72,6 +76,12 @@ public class Player : MonoBehaviour, IDamageable
     public void AttackOnGround()
     {
         _weapon.AttackRegular();
+    }
+
+    public void UseSpecialSkill()
+    {
+        if (_specialSkill.TryUse())
+            Debug.Log("Special skill used");
     }
 
     public void TakeDamage(float damage)

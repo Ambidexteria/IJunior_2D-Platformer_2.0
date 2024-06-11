@@ -19,6 +19,7 @@ public class Enemy : MonoBehaviour, IDamageable
     public EnemyWeapon Weapon => _weapon;
     public Animator Animator => _animator;
     public float PositionX => transform.position.x;
+    public float HealthCurrent => _health.Current;
 
     private void Awake()
     {
